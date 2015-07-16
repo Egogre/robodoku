@@ -116,10 +116,14 @@ class Solver
     valid_numbers - query_square(section(position))
   end
   
+  def only_one_number_available_for_a_position
+    query_spot(position) == nil && numbers_available(position).length == 1
+  end
+  
 end
 
-file = ARGV[0]
-puzzle = File.read(file)
-solver = Solver.new(puzzle)
-solution = solver.solve
-puts solution
+# file = ARGV[0]
+# puzzle = File.read(file)
+# solver = Solver.new(puzzle)
+# solution = solver.solve
+# puts solution
