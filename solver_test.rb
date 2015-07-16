@@ -1,9 +1,9 @@
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './robo2'
+require './solver'
 
-class SudokuTest < MiniTest::Test
+class SolverTest < MiniTest::Test
   attr_reader :sample_puzzle, :solver
   
   def setup
@@ -79,7 +79,7 @@ class SudokuTest < MiniTest::Test
     new_puzzle = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n 79385421\n"
     new_solver = Solver.new(new_puzzle)
     
-    expected = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n679385421\n"
+    expected = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n679385421"
     actual = new_solver.solve
     
     assert_equal expected, actual
@@ -90,18 +90,18 @@ class SudokuTest < MiniTest::Test
     new_puzzle = "82659 317\n71563894 \n3  721865\n163459278\n 48267153\n25781 694\n5 1942786\n482176  9\n 7938542 \n"
     new_solver = Solver.new(new_puzzle)
     
-    expected = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n679385421\n"
+    expected = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n679385421"
     actual = new_solver.solve
     
     assert_equal expected, actual
   end
   
-  def test_it_solves_medium_puzzle
+  def test_it_solves_harder_easy_puzzle
     # skip
     new_puzzle = "8  5 4  7\n  5 3 9  \n 9 7 1 6 \n1 3   2 8\n 4     5 \n2 78136 4\n 3 9 2 8 \n  2 7 5  \n6  3 5  1\n"
     new_solver = Solver.new(new_puzzle)
     
-    expected = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n679385421\n"
+    expected = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n679385421"
     actual = new_solver.solve
     
     assert_equal expected, actual

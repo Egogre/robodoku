@@ -12,7 +12,7 @@ class SudokuBoard
   end
   
   def current_board
-    "#{flat_map[0..8]}\n#{flat_map[9..17]}\n#{flat_map[18..26]}\n#{flat_map[27..35]}\n#{flat_map[36..44]}\n#{flat_map[45..53]}\n#{flat_map[54..62]}\n#{flat_map[63..71]}\n#{flat_map[72..80]}\n"
+    "#{flat_map[0..8]}\n#{flat_map[9..17]}\n#{flat_map[18..26]}\n#{flat_map[27..35]}\n#{flat_map[36..44]}\n#{flat_map[45..53]}\n#{flat_map[54..62]}\n#{flat_map[63..71]}\n#{flat_map[72..80]}"
   end
   
   def positions
@@ -37,7 +37,7 @@ class SudokuBoard
     row_sub_1 + column_sub_1
   end
   
-  def row_posisitons(row_number)
+  def row_positions(row_number)
     positions.select { |position| (position / 9) == row_number}
   end
   

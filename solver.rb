@@ -18,7 +18,7 @@ class Solver
   end
   
   def query_row(row_number)
-    board.row_posisitons(row_number).map do |position| 
+    board.row_positions(row_number).map do |position| 
       query_spot(position)
     end
   end
@@ -74,9 +74,3 @@ class Solver
   end
   
 end
-
-# file = ARGV[0]
-# puzzle = File.read(file)
-# solver = Solver.new(puzzle)
-# solution = solver.solve
-# puts solution
