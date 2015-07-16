@@ -8,7 +8,7 @@ class SudokuBoard
   end
   
   def new_board
-    puzzle
+    puzzle #eventually make it pretty?
   end
   
   def current_board

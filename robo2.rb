@@ -36,15 +36,11 @@ class Solver
   end
   
   def numbers_available(position)
-    if query_spot(position)
-      [query_spot(position)]
-    else
       a = board.valid_numbers 
       b = query_row(board.row(position))
       c = query_column(board.column(position))
       d = query_square(board.square(position))
       a - b - c - d
-    end
   end
 
   def place_number(number, position)
@@ -61,15 +57,19 @@ class Solver
     spot_number(position) == 0
   end
   
-  def only_one_number_available_for_a_position(position)
+  def only_one_number_available_for_a_position?(position)
     query_spot(position) == nil && numbers_available(position).length == 1
+  end
+  
+  def place_known_value_for_spot(position)
+    if only_one_number_available_for_a_position?(position)
+      place_number(numbers_available(position)[0], position)
+    end
   end
   
   def fill_in_known_values
     board.positions.map do |position|
-      if only_one_number_available_for_a_position(position)
-        place_number(numbers_available(position)[0], position)
-      end
+      place_known_value_for_spot(position)
     end
   end
   
