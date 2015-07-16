@@ -11,13 +11,6 @@ class SudokuTest < MiniTest::Test
     @solver = Solver.new(sample_puzzle)
   end
   
-  def test_it_puts_together_the_board #Trivial test
-    expected = sample_puzzle
-    actual = solver.board
-    
-    assert_equal expected, actual
-  end
-  
   def test_it_knows_a_spot_is_empty #Trivial + 1
     # skip
     expected = nil
@@ -93,6 +86,7 @@ class SudokuTest < MiniTest::Test
   end
   
   def test_it_solves_easy_puzzle
+    # skip
     new_puzzle = "82659 317\n71563894 \n3  721865\n163459278\n 48267153\n25781 694\n5 1942786\n482176  9\n 7938542 \n"
     new_solver = Solver.new(new_puzzle)
     
@@ -103,6 +97,7 @@ class SudokuTest < MiniTest::Test
   end
   
   def test_it_solves_medium_puzzle
+    # skip
     new_puzzle = "8  5 4  7\n  5 3 9  \n 9 7 1 6 \n1 3   2 8\n 4     5 \n2 78136 4\n 3 9 2 8 \n  2 7 5  \n6  3 5  1\n"
     new_solver = Solver.new(new_puzzle)
     
@@ -110,11 +105,6 @@ class SudokuTest < MiniTest::Test
     actual = new_solver.solve
     
     assert_equal expected, actual
-  end
-  
-  def test_it_rejects_puzzle_for_invalid_placement
-    skip
-    #when any pre-placed num doesn't follow rules
   end
 
 end

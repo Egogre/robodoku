@@ -1,52 +1,37 @@
 class Solver
-  attr_reader :puzzle
-  attr_accessor :flat_map
-
+  require './sudoku_board'
+  attr_reader :board
   
   def initialize(puzzle)
-    @puzzle = puzzle
-    @flat_map = puzzle.gsub("\n", "")
+    @board = SudokuBoard.new(puzzle)
   end
   
   def solve
-    while flat_map.match(" ")
-      positions.map do |position|
-        if query_spot(position) == nil && numbers_available(position).length == 1
-          place_number(numbers_available(position)[0], position)
-        end
-      end
+    while board.flat_map.match(" ")
+      fill_in_known_values
     end
-    current_board
+    board.current_board
   end
-  
-  def board
-    puzzle #eventually put in code to make it look "pretty"
-  end
-  
-  def current_board
-    "#{flat_map[0..8]}\n#{flat_map[9..17]}\n#{flat_map[18..26]}\n#{flat_map[27..35]}\n#{flat_map[36..44]}\n#{flat_map[45..53]}\n#{flat_map[54..62]}\n#{flat_map[63..71]}\n#{flat_map[72..80]}\n"
-  end
-  
+
   def query_spot(position)
-    spot = flat_map[position].to_i
-    spot unless spot == 0
+    spot_number(position) unless spot_empty?(position)
   end
   
   def query_row(row_number)
-    row_posisitons(row_number).map do |position| 
-      flat_map[position].to_i unless flat_map[position].to_i == 0
+    board.row_posisitons(row_number).map do |position| 
+      query_spot(position)
     end
   end
   
   def query_column(column_number)
-    column_positions(column_number).map do |position|
-      flat_map[position].to_i unless flat_map[position].to_i == 0
+    board.column_positions(column_number).map do |position|
+      query_spot(position)
     end
   end
   
-  def query_square(section_number)
-    section_positions(section_number).map do |position|
-      flat_map[position].to_i unless flat_map[position].to_i == 0
+  def query_square(square_number)
+    board.square_positions(square_number).map do |position|
+      query_spot(position)
     end
   end
   
@@ -54,70 +39,38 @@ class Solver
     if query_spot(position)
       [query_spot(position)]
     else
-      a = valid_numbers 
-      b = query_row(row(position))
-      c = query_column(column(position))
-      d = query_square(section(position))
+      a = board.valid_numbers 
+      b = query_row(board.row(position))
+      c = query_column(board.column(position))
+      d = query_square(board.square(position))
       a - b - c - d
     end
   end
-  
+
   def place_number(number, position)
-    flat_map[position] = "#{number}"
+    board.flat_map[position] = "#{number}"
   end
   
   private
   
-  def positions
-    0..(flat_map.length - 1)
+  def spot_number(position)
+    board.flat_map[position].to_i
   end
   
-  def row(position)
-    position / 9
+  def spot_empty?(position)
+    spot_number(position) == 0
   end
   
-  def column(position)
-    position % 9
-  end
-  
-  def section(position)
-    row_sub_1 = (row(position) /3) * 3
-    column_sub_1 = column(position) / 3
-    row_sub_1 + column_sub_1
-  end
-  
-  def row_posisitons(row_number)
-    positions.select { |position| (position / 9) == row_number}
-  end
-  
-  def column_positions(column_number)
-    positions.select { |position| (position % 9) == column_number}
-  end
-  
-  def section_positions(section_number)
-    positions.select do |position|
-      section(position) == section_number
-    end
-  end
-  
-  def valid_numbers
-    [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  end
-  
-  def numbers_remaining_in_row(position)
-    valid_numbers - query_row(row(position))
-  end
-  
-  def numbers_remaining_in_column(position)
-    valid_numbers - query_column(column(position))
-  end
-  
-  def numbers_remaining_in_section(position)
-    valid_numbers - query_square(section(position))
-  end
-  
-  def only_one_number_available_for_a_position
+  def only_one_number_available_for_a_position(position)
     query_spot(position) == nil && numbers_available(position).length == 1
+  end
+  
+  def fill_in_known_values
+    board.positions.map do |position|
+      if only_one_number_available_for_a_position(position)
+        place_number(numbers_available(position)[0], position)
+      end
+    end
   end
   
 end

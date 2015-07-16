@@ -18,31 +18,9 @@ class SudokuBoardTest < MiniTest::Test
     assert_equal expected, actual
   end
   
-  def test_it_knows_a_spot_is_empty #Trivial + 1
-    # skip
-    expected = nil
-    actual = board.query_spot(12)
-    
-    assert_equal expected, actual
-  end
-  
-  def test_it_knows_the_value_of_a_filled_in_spot # Trivial + 2
-    # skip
-    expected = 2
-    actual = board.query_spot(10)
-    
-    assert_equal expected, actual
-  end
-  
-  def test_it_knows_what_values_are_filled_in_row #Easy Test
-    # skip
-    sample_puzzle[20] = "2"
-    board = SudokuBoard.new(sample_puzzle)
-    
-    expected = [2, nil, 3, nil, nil, nil, nil, nil, nil]
-    actual = board.query_row(2)
-    
-    assert_equal expected, actual 
+  def test_it_rejects_puzzle_for_invalid_placement
+    skip
+    #when any pre-placed num doesn't follow rules
   end
   
 end
