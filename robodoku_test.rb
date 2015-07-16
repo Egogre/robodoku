@@ -37,6 +37,7 @@ class SudokuTest < MiniTest::Test
   def test_it_knows_what_values_are_filled_in_row #Easy Test
     # skip
     sample_puzzle[20] = "2"
+    solver = Solver.new(sample_puzzle)
     
     expected = [2, nil, 3, nil, nil, nil, nil, nil, nil]
     actual = solver.query_row(2)
@@ -48,6 +49,7 @@ class SudokuTest < MiniTest::Test
     # skip
     sample_puzzle[10] = "8"
     sample_puzzle[60] = "2"
+    solver = Solver.new(sample_puzzle)
     
     expected = [1, 8, nil, nil, nil, nil, 2, nil, nil]
     actual = solver.query_column(0)
@@ -70,11 +72,48 @@ class SudokuTest < MiniTest::Test
     assert_equal expected, actual
   end
   
-  def test_it_rejects_puzzle_for_invalid_number
-    #when num exists > row.length
+  def test_it_fills_in_an_empty_spot
+    solver.place_number(9, 12)
+    
+    expected = 9
+    actual = actual = solver.query_spot(12)
+    
+    assert_equal expected, actual
+  end
+
+  def test_it_solves_trivial_puzzle
+    # skip
+    new_puzzle = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n 79385421\n"
+    new_solver = Solver.new(new_puzzle)
+    
+    expected = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n679385421\n"
+    actual = new_solver.solve
+    
+    assert_equal expected, actual
+  end
+  
+  def test_it_solves_easy_puzzle
+    new_puzzle = "82659 317\n71563894 \n3  721865\n163459278\n 48267153\n25781 694\n5 1942786\n482176  9\n 7938542 \n"
+    new_solver = Solver.new(new_puzzle)
+    
+    expected = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n679385421\n"
+    actual = new_solver.solve
+    
+    assert_equal expected, actual
+  end
+  
+  def test_it_solves_medium_puzzle
+    new_puzzle = "8  5 4  7\n  5 3 9  \n 9 7 1 6 \n1 3   2 8\n 4     5 \n2 78136 4\n 3 9 2 8 \n  2 7 5  \n6  3 5  1\n"
+    new_solver = Solver.new(new_puzzle)
+    
+    expected = "826594317\n715638942\n394721865\n163459278\n948267153\n257813694\n531942786\n482176539\n679385421\n"
+    actual = new_solver.solve
+    
+    assert_equal expected, actual
   end
   
   def test_it_rejects_puzzle_for_invalid_placement
+    skip
     #when any pre-placed num doesn't follow rules
   end
 
